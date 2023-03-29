@@ -5,10 +5,12 @@
   @calculatePosition={{this.calculatePosition}}
   @onClose={{this.close}}
   @onOpen={{this.open}}
+  @registerAPI={{this.onRegisterAPI}}
   ...attributes
   as |dd|>
   {{yield (hash
     trigger=dd.Trigger
     content=dd.Content
+    dropdown=dd
   )}}
 </BasicDropdown>

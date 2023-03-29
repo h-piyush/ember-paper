@@ -50,6 +50,13 @@ class PaperMenu extends Component {
 
     return positionCalculator.drowdownPosition;
   }
+
+  @action
+  onRegisterAPI(api) {
+    if (this.onRegisterAPICallBack) {
+      this.onRegisterAPICallBack(api);
+    }
+  }
 }
 
 export default PaperMenu;

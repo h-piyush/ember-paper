@@ -182,13 +182,17 @@ export default Component.extend(FocusableMixin, ColorMixin, ChildMixin, Validati
 
   actions: {
     handleInput(e) {
-      invokeAction(this, 'onChange', e.target.value);
-      // setValue below ensures that the input value is the same as this.value
+        if(!this.get("triggerOnBlur")){
+            invokeAction(this, 'onChange', e.target.value);
+          }else{
+            this.set('_temp_value', e.target.value);
+          }
+        // setValue below ensures that the input value is the same as this.value
       run.next(() => {
         if (this.isDestroyed) {
           return;
         }
-        this.setValue(this.value);
+        this.setValue(this.get('triggerOnBlur') ? this.get('_temp_value'): this.get('value'));
       });
       this.growTextarea();
       let inputElement = this.element.querySelector('input');
@@ -204,6 +208,9 @@ export default Component.extend(FocusableMixin, ColorMixin, ChildMixin, Validati
     },
 
     handleBlur(e) {
+      if(this.get("triggerOnBlur")){
+        invokeAction(this, 'onChange', this.get('_temp_value'));
+      }
       invokeAction(this, 'onBlur', e);
       this.set('isTouched', true);
       this.notifyValidityChange();
